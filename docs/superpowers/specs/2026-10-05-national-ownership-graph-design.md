@@ -33,7 +33,7 @@ The problem is "keep the name, change the owner." A sub shop, sauce brand, vet, 
    - Buffalo Wild Wings → PE (Roark Capital, through Inspire Brands)
    - Jersey Mike's → PE (Blackstone, even though it is publicly traded)
    - Subway → PE (Roark Capital)
-   - Rao's → corporate (Campbell's), formerly PE (Advent International)
+   - Rao's → corporate (Campbell's). Its former Advent ownership needs a source Phase 1 doesn't have; see Revisions.
    - A public company with no parent → no signals found, noted as publicly traded
 
 ## 2. Roadmap
@@ -166,7 +166,7 @@ Every collector outputs claims and entities in the formats above, has offline te
 - **Bulk fetch:** weekly. `action=query&generator=embeddedin&geititle=Template:Infobox company&geinamespace=0&geilimit=50&prop=revisions|pageprops&rvprop=content|timestamp&rvslots=main&rvsection=0&ppprop=wikibase_item&maxlag=5&formatversion=2` takes about 1,600 requests, roughly 10 minutes.
 - **Nightly refresh:** check `lastrevid` for tracked pages in batches of 50. Re-parse only the pages that changed.
 - **Fields parsed with `mwparserfromhell`:** `parent`, `owner`, `owners`, `traded_as`, `industry`, `type`, `website`, `brands`, `products`, `subsid`, `defunct`, `fate`. Date ranges like `(2018–present)` and `{{ubl}}` lists are parsed into separate dated claims. A company's `brands` field produces `brand_of` claims for brands listed there.
-- **Revision-history backfill:** for every entity on an ownership chain, plus its parents, fetch one revision per year back to 2010. Changes in parent or owner fields become dated `controlled_by` periods, labeled "observed in Wikipedia as of <revision date>." This is how Rao's gets "formerly PE-owned (Advent)."
+- **Revision-history backfill:** for every entity on an ownership chain, plus its parents, fetch one revision per year back to 2010. Changes in parent or owner fields become dated `controlled_by` periods, labeled "observed in Wikipedia as of <revision date>." (Planning found this cannot supply Rao's former Advent ownership; see Revisions.)
   - It is a one-time backfill, resumable, with a budget of about 2,000 requests per night.
   - After that, nightly observation takes over.
 - **Etiquette:** User-Agent `PECheckerBot/1.0 (+https://github.com/d-pap/pe-checker)` (a project URL is enough; no email). No more than 3 concurrent requests, ≤200 requests per minute, honor `maxlag` and `429 Retry-After`.
@@ -217,7 +217,7 @@ Every collector outputs claims and entities in the formats above, has offline te
 - **Matching an adviser to a company entity:** Wikipedia's "Roark Capital Group" vs. ADV's "Roark Capital Management, LLC."
   - Compare core names: casefold, then strip legal suffixes and holding words (LLC, L.P., Inc., Co., Management, Partners, Group, Holdings, Capital, Advisors, Advisers).
   - The match is `confirmed` only when core names are equal **and** a second signal agrees: the same website domain (the ADV websites schedule, Schedule D 1.I, if present in the bulk data — verify during implementation), or Wikipedia describing the company as a private equity or investment firm.
-  - A core-name match alone is `reported`.
+  - A core-name match alone is not used (see Revisions: Form ADV only confirms firms an encyclopedia already describes as investment firms).
 - **License:** US government, public domain.
 
 ### 6.6 FTC HSR early termination notices
@@ -323,8 +323,8 @@ Most ownership links in Phase 1 will honestly read "Reported." PE classification
 
 | File | Contents |
 |---|---|
-| `data/search/<prefix>.json` | The prefix is the first two normalized characters of each name or alias token. Each entry: display name, slug, kind, tier, category. |
-| `data/e/<xx>.json` | 256 shards keyed by the first two hex characters of sha1(slug). Each holds the full verdict objects for its entities. |
+| `data/search/<prefix>.json` | The prefix is the first three normalized characters of each name or alias token; `top.json` holds the top 3,000 entries for two-letter queries. Each entry: display name, slug, tier, kind, search text, score. |
+| `data/e/<xxx>.json` | 4,096 shards keyed by the first three hex characters of sha1(slug). Each holds the full verdict objects for its entities. |
 | `data/meta.json` | Build time, per-source last success and staleness, counts |
 | `data/changes/latest.json` | Verdict changes from the latest run |
 
@@ -366,7 +366,7 @@ GitHub Actions cron runs nightly at about 07:00 UTC, plus manual `workflow_dispa
 
 ### Local development
 
-- `npm run build -- --sample` runs the whole pipeline on fixtures plus a small live sample.
+- `npm run build:sample` runs the whole pipeline on a built-in sample graph (no network); `npm run build -- --only <source>` runs one live source.
 - `npm start` serves `site/` with the built data.
 
 ## 11. Testing
@@ -388,7 +388,7 @@ GitHub Actions cron runs nightly at about 07:00 UTC, plus manual `workflow_dispa
   - Buffalo Wild Wings → PE (Roark)
   - Jersey Mike's → PE (Blackstone)
   - Subway → PE (Roark)
-  - Rao's → corporate (Campbell's) + formerly PE (Advent). The "formerly PE" part is enforced after the revision backfill completes.
+  - Rao's → corporate (Campbell's)
   - A public company with no parent → no signals found
 - **Site test:** one Playwright test loads the home page, searches, and opens a result page using sample data.
 
@@ -411,3 +411,27 @@ GitHub Actions cron runs nightly at about 07:00 UTC, plus manual `workflow_dispa
 - **Investment-firm detection beyond ADV.** Holding companies like JAB may not file Form ADV, so the Wikipedia industry and description fields are the fallback. Quality will be measured in Phase 1 and revisited.
 - **Flip and roll-up thresholds.** Starting values are in §8.3. Tune after seeing real distributions.
 - **The prototype's vet/HVAC sources.** Not used in Phase 1; reconsider in Phase 3. Private Equity Vet's terms restrict republishing a material part of its compilation without written permission.
+
+## 14. Revisions made during planning (2026-10-05)
+
+Implementation planning prototyped the whole pipeline against live data. These changes supersede the sections above where they conflict.
+
+1. **Rao's "formerly PE (Advent)" is out of Phase 1.**
+   - Wikipedia's Sovos Brands page was created in 2023 and never listed Advent as owner.
+   - The 2017 FTC notice names "Sovos Brands Limited Partnership" as buyer, not an Advent fund.
+   - The Phase 1 known answer for Rao's is corporate-owned (Campbell's) only.
+   - The likely source for the missing history is SEC beneficial-ownership filings (Schedule 13D/13G), which also reveal PE control of publicly traded brands. Candidate for a later phase.
+2. **Form ADV never turns an operating company into a PE firm.**
+   - Big banks run PE funds, so a domain or name match alone would label Chase "PE-owned."
+   - ADV evidence now only upgrades and confirms a company that Wikipedia or Wikidata already describes as an investment or PE firm. The match is by shared website domain (ADV Schedule D 1.I is in the bulk data) or by core name.
+   - Other matches are recorded as "possibly the same" and not used.
+3. **FTC "acquired party" is the seller.** In HSR terms it is the target's former ultimate parent. Each notice therefore yields a dated `deal` to the buyer and an *ended* `controlled_by` period for the seller (when the seller isn't the target itself). This is how a PE exit becomes "formerly PE." Deals still never establish current control.
+4. **People are not parent companies.** Owner links to people's articles (a person infobox, or a short description such as "businessman" or "entrepreneur") are dropped, and Wikidata owners that are humans are skipped. Unlinked owner text that names no one ("Independent business", "The X family") is ignored.
+5. **An end year means it ended.** `(2010–2026)` read in 2026 is history, not a rival current owner.
+6. **Wikidata requests send no `maxlag`.** Wikidata ties it to query-service lag and refused reads during testing. Any API error now fails the source, so yesterday's data carries forward instead of silently publishing empty results.
+7. **Sharding and sample builds.**
+   - Entity data uses 4,096 shards and search uses 3-character prefixes, to keep phone downloads small.
+   - `--sample` builds from a built-in graph rather than fixtures plus a live sample.
+8. **Expected volume and run time.**
+   - The weekly Wikipedia pass takes about 4,000 requests (~25 minutes) because it also collects redirect names, which let USDA, FTC, and SEC names match companies.
+   - The first nightly run takes 2–3 hours; normal nights take well under an hour. The workflow timeout is 4 hours.
