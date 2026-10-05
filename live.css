@@ -1,0 +1,49 @@
+.live-hero{min-height:715px}
+.national-row{margin-top:9px}
+.try-row a{border:1px solid #cdd5ca;border-radius:30px;padding:7px 12px;background:transparent;color:#334c44;font-size:12px;font-weight:700;text-decoration:none}
+.try-row a:hover{background:#e7ebe2}
+.lookup-form{display:grid;gap:8px;max-width:610px;background:var(--white);border:1px solid var(--line);border-radius:7px;padding:19px;box-shadow:0 12px 42px rgba(38,51,43,.1)}
+.lookup-form label{font-size:11px;font-weight:700;color:#476257;margin-top:2px}
+.lookup-form label span{font-weight:500;color:#819087}
+.lookup-form input{width:100%;border:1px solid #d3dbd2;border-radius:4px;background:#fdfdf9;padding:13px 14px;color:var(--ink);outline:none;font-size:14px}
+.lookup-form input:focus{border-color:#8bad90;box-shadow:0 0 0 3px #e4ecdf}
+.lookup-form button{margin-top:5px;background:var(--red);color:white;border:0;border-radius:4px;padding:15px 18px;text-align:left;font-size:13px;font-weight:700;display:flex;justify-content:space-between}
+.lookup-form button:hover{background:#c94b3b}
+.live-visual .preview-card h2{font-size:31px;margin:7px 0 15px}
+.live-visual .preview-icon{background:#e7ede3;color:#38584b}
+.visual-note{font-size:12px;line-height:1.55;color:#64796b;margin:0}
+.live-visual .preview-rule:last-of-type{margin:22px 0 15px}
+.results-section{min-height:440px}
+.results-placeholder,.status-card{padding:26px;background:var(--white);border:1px solid var(--line);border-radius:6px;color:#617468;font-size:14px;line-height:1.6}
+.status-card{margin:0 0 22px;border-left:4px solid #d5b269}
+.status-card strong{display:block;color:var(--ink);font-family:'Space Grotesk',sans-serif;font-size:20px;margin-bottom:6px}
+.status-card p{margin:0}
+.status-card.status-found{border-left-color:#ce715b}
+.result-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.result-card{background:var(--white);border:1px solid #dbe2d9;border-radius:7px;padding:25px;min-width:0}
+.result-card .card-sector{display:block;margin-bottom:10px}
+.result-card h3{font-family:'Space Grotesk',sans-serif;font-size:25px;letter-spacing:-.05em;line-height:1.1;margin:0 0 7px}
+.result-card .where{font-size:12px;color:#6f8373;margin-bottom:20px}
+.result-card dl{margin:0;border-top:1px solid var(--line)}
+.result-card dl div{padding:11px 0;display:grid;grid-template-columns:125px 1fr;gap:12px;border-bottom:1px solid #ebeee8;font-size:12px}
+.result-card dt{color:#879489}
+.result-card dd{margin:0;font-weight:700;line-height:1.45;overflow-wrap:anywhere}
+.result-card .note{font-size:12px;line-height:1.55;color:#687c6c;margin:18px 0 0}
+.result-links{display:flex;gap:14px;flex-wrap:wrap;margin-top:19px}
+.result-links a{font-size:12px;color:#a54839;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.result-section-title{font-family:'Space Grotesk',sans-serif;font-size:22px;letter-spacing:-.04em;margin:28px 0 14px}
+.source-credit{margin-top:20px;font-size:11px;line-height:1.6;color:#778678}
+.source-credit a{color:#49695a}
+.encyclopedia-card{max-width:760px}
+.open-chain{border-top:1px solid var(--line);margin-top:20px}
+.open-chain-node{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;border-bottom:1px solid var(--line);padding:13px 0}
+.open-chain-node>span{grid-column:1;grid-row:1 / span 2;font-size:11px;color:#8c9d90}
+.open-chain-node strong{grid-column:2;grid-row:1;font-family:'Space Grotesk',sans-serif;font-size:18px}
+.open-chain-node small{grid-column:2;grid-row:2;color:#6a7d6e;font-size:11px}
+.open-chain-node a{grid-column:3;grid-row:1 / span 2;align-self:center;white-space:nowrap;font-size:11px;font-weight:700;color:#ad523e;text-decoration:none}
+.badge-reported{background:#f4e9d5;color:#84652f}
+.badge-unresolved{background:#e9ece7;color:#697a6c}
+.badge-possible{background:#f8e3dc;color:#9d4d37}
+.result-card .badge{margin-top:13px;white-space:normal}
+@media(max-width:800px){.result-grid{grid-template-columns:1fr}.live-hero{min-height:auto}}
+@media(max-width:560px){.result-card dl div{grid-template-columns:105px 1fr}}

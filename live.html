@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#f5f2ec" />
+  <meta name="description" content="Search source-linked veterinary and HVAC ownership records." />
+  <title>PE Checker — Follow the ownership</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/live.css" />
+  <script type="module" src="/live.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="/" aria-label="PE Checker home"><span class="brand-mark">pe<span>?</span></span><span class="brand-name">CHECKER</span></a>
+      <nav class="header-nav" aria-label="Main navigation"><a href="#results">Search results</a><a href="#method">How this works</a></nav>
+      <span class="header-note"><span class="live-dot"></span> Refreshing public data daily</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero shell live-hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> Ownership transparency, with evidence</div>
+        <h1 id="hero-title">Who owns the places <em>you choose?</em></h1>
+        <p class="hero-deck">Look up a veterinary practice or HVAC contractor. See the group, investor, or deal found in live public datasets—and where the evidence stops.</p>
+        <form id="check-form" class="lookup-form" role="search">
+          <label for="name-input">Business name</label>
+          <input id="name-input" type="search" placeholder="e.g. Patterson Veterinary Hospital" autocomplete="off" spellcheck="false" />
+          <label for="place-input">City, state, or ZIP <span>(helps distinguish local businesses)</span></label>
+          <input id="place-input" type="text" placeholder="e.g. Clinton Township, MI" autocomplete="address-level2" />
+          <button type="submit">Check ownership <span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="try-row"><span>Try a live lookup</span>
+          <a href="/?name=Patterson+Veterinary+Hospital&amp;place=Clinton+Township%2C+MI#results">Patterson Veterinary Hospital</a>
+          <a href="/?name=Davis+Heating+and+Air+Conditioning+Company#results">Davis Heating &amp; Air</a>
+          <a href="/?name=Creekside+Animal+Hospital&amp;place=Macomb%2C+MI#results">Creekside in Macomb</a>
+        </div>
+        <div class="try-row national-row"><span>National brands</span>
+          <a href="/?name=Buffalo+Wild+Wings#results">Buffalo Wild Wings</a>
+          <a href="/?name=Jersey+Mike%27s#results">Jersey Mike’s</a>
+          <a href="/?name=Rao%27s+Homemade#results">Rao’s Homemade</a>
+        </div>
+        <div class="try-row national-row"><span>Browse nearby</span>
+          <a href="/?name=&amp;place=Clinton+Township%2C+MI#results">Clinton Township vets</a>
+          <a href="/?name=&amp;place=Shelby+Township%2C+MI#results">Shelby Township vets</a>
+        </div>
+      </div>
+      <div class="hero-visual live-visual" aria-label="How a result is traced">
+        <div class="preview-top"><span><span class="tiny-square"></span> THE INVESTIGATION</span><span>LIVE DATA</span></div>
+        <div class="preview-card">
+          <div class="preview-icon">?</div>
+          <div class="preview-label">A local name can have a longer chain.</div>
+          <h2>Follow the evidence</h2>
+          <div class="preview-rule"></div>
+          <div class="preview-step"><span>01</span><strong>Practice or contractor</strong><small>Name + place</small></div>
+          <div class="preview-connector"></div>
+          <div class="preview-step"><span>02</span><strong>Operating group or acquirer</strong><small>Recorded link</small></div>
+          <div class="preview-connector"></div>
+          <div class="preview-step sponsor"><span>03</span><strong>Investor or sponsor</strong><small>When reported</small></div>
+          <div class="preview-rule"></div>
+          <p class="visual-note">An acquisition record alone does not prove who controls a business now. Every result says exactly what its source supports.</p>
+        </div>
+        <div class="preview-foot" id="sync-summary">Checking source freshness…</div>
+      </div>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-inner">FOLLOW THE OWNERSHIP <span>✳</span> CHECK THE SOURCES <span>✳</span> MAKE YOUR OWN CALL <span>✳</span> FOLLOW THE OWNERSHIP <span>✳</span> CHECK THE SOURCES <span>✳</span> MAKE YOUR OWN CALL <span>✳</span></div></div>
+
+    <section class="browse-section shell results-section" id="results" aria-labelledby="results-title">
+      <div class="section-kicker">THE RESEARCH FILE <span id="record-count"></span></div>
+      <div class="section-heading"><div><h2 id="results-title">Look up a business</h2><p id="results-intro">Enter a name above. You can also enter only a city to browse veterinary listings there.</p></div><div class="reviewed" id="checked-at"></div></div>
+      <div id="results-content" aria-live="polite"><div class="results-placeholder">Results will appear here with source links and a clear uncertainty label.</div></div>
+    </section>
+
+    <section class="method-section" id="method" aria-labelledby="method-title">
+      <div class="shell method-layout"><div><div class="section-kicker">OUR STANDARD</div><h2 id="method-title">A claim you can check.</h2><p class="method-lead">The research index refreshes its source downloads daily. Every matched record shows its origin, date, and limits.</p></div><div class="method-cards">
+        <article><span class="method-number">01 /</span><h3>Match the place</h3><p>Location matters. Several unrelated clinics can share the same name, so the city or address must agree.</p></article>
+        <article><span class="method-number">02 /</span><h3>Trace the chain</h3><p>Practice to group to investor, or contractor to acquirer to sponsor. A missing link stays unresolved.</p></article>
+        <article><span class="method-number">03 /</span><h3>Check recency</h3><p>A deal announced years ago may have been reversed or sold. Historical deal rows are labeled as such.</p></article>
+      </div></div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="shell footer-inner"><div class="footer-brand">pe<span>?</span> <small>CHECKER</small></div><p>Research leads and source-linked records. No result never means independently owned.</p><a href="#method">Method ↗</a></div></footer>
+</body>
+</html>
