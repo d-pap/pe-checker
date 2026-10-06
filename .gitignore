@@ -5,3 +5,6 @@ __pycache__/
 *.sqlite3-wal
 .superpowers/
 .impeccable/hook.cache.json
+.impeccable/
+docs/
+AGENTS.md
